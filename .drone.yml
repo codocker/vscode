@@ -11,14 +11,6 @@ steps:
   - name: 代码
     image: dronestock/git
 
-  - name: 编译
-    image: pangum/drone
-    volumes:
-      - name: go
-        path: /var/lib/go
-    settings:
-      output: git
-
   - name: 发布
     image: dronestock/docker
     privileged: true
