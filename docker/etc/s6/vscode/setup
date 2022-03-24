@@ -1,9 +1,30 @@
 #!/bin/bash
 
+# 创建数据目录
+if [ ! -d "${DATA_DIR}" ]; then
+  gosu "${USERNAME}" mkdir "${DATA_DIR}"
+fi
+
+# 创建插件目录
+if [ ! -d "${EXTENSION_DIR}" ]; then
+  gosu "${USERNAME}" mkdir "${EXTENSION_DIR}"
+fi
+
+# 创建工作区目录
+if [ ! -d "${WORKSPACE}" ]; then
+  gosu "${USERNAME}" mkdir "${WORKSPACE}"
+fi
+
+# 美化Z Shell
+ZSH_RC_FILE=${USER_HOME}/.zshrc
+if [ ! -f "${ZSH_RC_FILE}" ]; then
+  gosu "${USERNAME}" cp /etc/ohmyzsh/zshrc.sh "${ZSH_RC_FILE}"
+fi
+
 # 将主目录所有者改成系统创建的用户
 permissionFile=${ZIYUNIX_HOME}/.permission.lock
 if [ "${SET_PERMISSIONS}" = true ] && [ ! -f "${permissionFile}" ]; then
-  chown -R "${USERNAME}":"${USERNAME}" "${ZIYUNIX_HOME}"
+  chown -R "${USERNAME}":"${USERNAME}" "${USER_HOME}"
 
   if [ ! -f "${permissionFile}" ]; then
     gosu "${USERNAME}" touch "${permissionFile}"
