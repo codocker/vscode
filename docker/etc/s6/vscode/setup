@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# 将主目录所有者改成系统创建的用户
+permissionFile=${ZIYUNIX_HOME}/.permission.lock
+if [ "${SET_PERMISSIONS}" = true ] && [ ! -f "${permissionFile}" ]; then
+  chown -R "${USERNAME}":"${USERNAME}" "${ZIYUNIX_HOME}"
+
+  if [ ! -f "${permissionFile}" ]; then
+    gosu "${USERNAME}" touch "${permissionFile}"
+  fi
+fi

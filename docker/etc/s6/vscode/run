@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# 配置
+source ./setup
+
+# 启动子云执行器
+exec gosu "${USERNAME}" /opt/ziyunix/agent --conf "${ZIYUNIX_HOME}"/application.yml serve

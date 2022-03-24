@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/opt/nezha/agent --conf "${NEZHA_HOME}"/application.yml "$@"
