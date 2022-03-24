@@ -15,7 +15,8 @@ RUN chmod +x /opt/fastgithub/fastgithub
 
 
 # 打包真正的镜像
-FROM storezhang/alpine
+# 之所以使用Ubuntu镜像而不是Alpine镜像，是因为在VSCode的使用过程中，会用到系统相关功能，而Ubuntu显然比Alpine在易用性上要好得多
+FROM storezhang/ubuntu
 
 
 LABEL author="storezhang<华寅>"
@@ -54,9 +55,6 @@ RUN set -ex \
 
 
 
-# 执行命令
-ENTRYPOINT /bin/git
-
-
 # 配置环境变量
+# 配置Golang开发环境变量
 ENV GOPROXY https://goproxy.io,https://goproxy.cn,https://mirrors.aliyun.com/goproxy,direct
