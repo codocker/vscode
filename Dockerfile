@@ -31,7 +31,7 @@ LABEL author="storezhang<华寅>"
 LABEL email="storezhang@gmail.com"
 LABEL qq="160290688"
 LABEL wechat="storezhang"
-LABEL description="VSCode网页版本，在原来的功能上增加：1、中文支持；2、编译工具支持；3、解决权限问题；4、增加Z Shell并美化终端"
+LABEL description="VSCode网页版本，在原来的功能上增加：1、中文支持；2、编译工具支持；3、解决权限问题；4、增加Z Shell并美化终端；5、Github加速"
 
 
 # 用户密码
