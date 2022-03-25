@@ -1,5 +1,4 @@
 ARG VSCODE_HOME=/opt/microsoft/vscode
-ARG FONT_HOME=/opt/system/font
 
 
 
@@ -21,22 +20,6 @@ RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/c
 RUN mkdir -p ${VSCODE_HOME}
 # 去掉压缩包里面的顶层目录
 RUN tar xf ${OUTPUT_FILE} --directory ${VSCODE_HOME} --strip-components 1
-
-
-
-# 安装字体
-FROM storezhang/ubuntu AS font
-
-
-WORKDIR /opt
-
-
-ARG FONT_HOME
-RUN apt update -y
-RUN apt install axel -y
-RUN mkdir -p ${FONT_HOME}
-RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf --output ${FONT_HOME}/PowerlineSymbols.otf
-RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf --output ${FONT_HOME}/10-powerline-symbols.conf
 
 
 
@@ -71,10 +54,7 @@ ENV OHMYZSH_THEMES ${OHMYZSH_HOME}/themes
 
 # 复制文件
 ARG VSCODE_HOME
-ARG FONT_HOME
 COPY --from=vscode ${VSCODE_HOME} ${VSCODE_HOME}
-# 复制字体
-COPY --from=font ${FONT_HOME} ${FONT_DIR}
 COPY docker /
 
 
@@ -105,18 +85,6 @@ RUN set -ex \
     && git clone https://ghproxy.com/https://github.com/zsh-users/zsh-syntax-highlighting.git ${OHMYZSH_PLUGINS}/zsh-syntax-highlighting \
     && git clone https://ghproxy.com/https://github.com/romkatv/powerlevel10k.git ${OHMYZSH_THEMES}/powerlevel10k \
     && usermod --shell /bin/zsh ${USERNAME} \
-    \
-    \
-    \
-    # 安装字体 \
-    && apt install fontconfig -y \
-    && cd ${FONT_DIR} \
-    # 生成核心字体信息
-    && mkfontscale \
-    # 生成字体文件夹
-    && mkfontdir \
-    # 刷新系统字体缓存
-    && fc-cache -vf \
     \
     \
     \

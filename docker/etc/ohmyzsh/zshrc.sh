@@ -3,7 +3,7 @@ export ZSH=${OHMYZSH_HOME}
 
 # 随机主题范围
 # shellcheck disable=SC2034
-POWERLEVEL9K_MODE='awesome-fontconfig'
+POWERLEVEL9K_MODE='nerdfont-complete'
 # shellcheck disable=SC2034
 POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 
