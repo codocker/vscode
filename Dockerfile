@@ -31,8 +31,10 @@ FROM storezhang/ubuntu AS font
 WORKDIR /opt
 
 
+ARG FONT_HOME
 RUN apt update -y
 RUN apt install axel -y
+RUN mkdir -p ${FONT_HOME}
 RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf --output ${FONT_HOME}/PowerlineSymbols.otf
 RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf --output ${FONT_HOME}/10-powerline-symbols.conf
 
@@ -106,7 +108,8 @@ RUN set -ex \
     \
     \
     \
-    # 安装字体
+    # 安装字体 \
+    && apt install fontconfig -y \
     && cd ${FONT_DIR} \
     # 生成核心字体信息
     && mkfontscale \
