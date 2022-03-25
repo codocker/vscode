@@ -1,4 +1,6 @@
 ARG VSCODE_HOME=/opt/microsoft/vscode
+ARG FONT_HOME=/opt/system/font
+ARG OHMYZSH_HOME=/opt/system/ohmyzsh
 
 
 
@@ -18,8 +20,66 @@ RUN apt update -y
 RUN apt install axel -y
 RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/coder/code-server/releases/download/v${VERSION}/code-server-${VERSION}-linux-amd64.tar.gz --output ${OUTPUT_FILE}
 RUN mkdir -p ${VSCODE_HOME}
-# 去掉压缩包里面的顶层目录
 RUN tar xf ${OUTPUT_FILE} --directory ${VSCODE_HOME} --strip-components 1
+
+
+
+# 安装字体
+FROM storezhang/ubuntu AS font
+
+
+WORKDIR /opt
+
+
+# Jetbrains Mono字体版本
+ENV JETBRAINS_MONO_VERSION 2.242
+ENV JETBRAINS_BIN_FILE jetbrans.zip
+
+
+ARG FONT_HOME
+RUN apt update -y
+RUN apt install axel unzip -y
+RUN mkdir -p ${FONT_HOME}
+RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf --output ${FONT_HOME}/PowerlineSymbols.otf
+RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf --output ${FONT_HOME}/10-powerline-symbols.conf
+RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/JetBrains/JetBrainsMono/releases/download/v${JETBRAINS_MONO_VERSION}/JetBrainsMono-${JETBRAINS_MONO_VERSION}.zip --output ${JETBRAINS_BIN_FILE}
+RUN unzip ${JETBRAINS_BIN_FILE}
+RUN mv fonts/ttf/* ${FONT_HOME}
+
+
+
+# 安装Ohmyzsh
+FROM storezhang/ubuntu AS ohmyzsh
+
+
+WORKDIR /opt
+
+
+ARG OHMYZSH_HOME
+ENV OHMYZSH_PLUGINS ${OHMYZSH_HOME}/plugins
+ENV OHMYZSH_THEMES ${OHMYZSH_HOME}/themes
+
+ENV OHMYZSH_BIN_FILE ohmyzsh.tar.gz
+ENV AUTOSUGGESTIONS_BIN_FILE autosuggestions.tar.gz
+ENV HIGHLIGHTING_BIN_FILE highlighting.tar.gz
+ENV POWERLEVEL_10K_BIN_FILE powerlevel10k.tar.gz
+
+
+RUN apt update -y
+RUN apt install axel -y
+RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/ohmyzsh/ohmyzsh/archive/refs/heads/master.tar.gz --output ${OHMYZSH_BIN_FILE}
+RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/zsh-users/zsh-autosuggestions/archive/refs/heads/master.tar.gz --output ${AUTOSUGGESTIONS_BIN_FILE}
+RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/zsh-users/zsh-syntax-highlighting/archive/refs/heads/master.tar.gz --output ${HIGHLIGHTING_BIN_FILE}
+RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/romkatv/powerlevel10k/archive/refs/heads/master.tar.gz --output ${POWERLEVEL_10K_BIN_FILE}
+
+RUN mkdir -p ${OHMYZSH_HOME}
+RUN tar xf ${OHMYZSH_BIN_FILE} --directory ${OHMYZSH_HOME} --strip-components 1
+RUN mkdir -p ${OHMYZSH_PLUGINS}/zsh-autosuggestions
+RUN tar xf ${AUTOSUGGESTIONS_BIN_FILE} --directory ${OHMYZSH_PLUGINS}/zsh-autosuggestions --strip-components 1
+RUN mkdir -p ${OHMYZSH_PLUGINS}/zsh-syntax-highlighting
+RUN tar xf ${HIGHLIGHTING_BIN_FILE} --directory ${OHMYZSH_PLUGINS}/zsh-syntax-highlighting --strip-components 1
+RUN mkdir -p ${OHMYZSH_THEMES}/powerlevel10k
+RUN tar xf ${POWERLEVEL_10K_BIN_FILE} --directory ${OHMYZSH_THEMES}/powerlevel10k --strip-components 1
 
 
 
@@ -45,16 +105,18 @@ ENV PASSWORD storezhang
 # 字体目录
 ENV FONT_DIR /usr/local/share/fonts
 
-# ZSH主目录
-ENV OHMYZSH_HOME /opt/system/ohmyzsh
-# ZSH安装环境
-ENV OHMYZSH_PLUGINS ${OHMYZSH_HOME}/plugins
-ENV OHMYZSH_THEMES ${OHMYZSH_HOME}/themes
 
 
 # 复制文件
 ARG VSCODE_HOME
+ARG FONT_HOME
+ARG OHMYZSH_HOME
+# 复制VSCode
 COPY --from=vscode ${VSCODE_HOME} ${VSCODE_HOME}
+# 复制字体
+COPY --from=font ${FONT_HOME} ${FONT_DIR}
+# 复制Ohmyzsh
+COPY --from=ohmyzsh ${OHMYZSH_HOME} ${OHMYZSH_HOME}
 COPY docker /
 
 
@@ -76,14 +138,13 @@ RUN set -ex \
     # 安装版本控制软件
     && apt install git -y \
     \
-    # 安装Z Shell并美化控制台
+    \
+    \
+    # 安装ZSH并美化控制台
     && apt install zsh -y \
     # 安装辅助程序
     && apt install curl -y \
-    && git clone https://ghproxy.com/https://github.com/ohmyzsh/ohmyzsh.git ${OHMYZSH_HOME} \
-    && git clone https://ghproxy.com/https://github.com/zsh-users/zsh-autosuggestions.git ${OHMYZSH_PLUGINS}/zsh-autosuggestions \
-    && git clone https://ghproxy.com/https://github.com/zsh-users/zsh-syntax-highlighting.git ${OHMYZSH_PLUGINS}/zsh-syntax-highlighting \
-    && git clone https://ghproxy.com/https://github.com/romkatv/powerlevel10k.git ${OHMYZSH_THEMES}/powerlevel10k \
+    # 修改用户终端
     && usermod --shell /bin/zsh ${USERNAME} \
     \
     \
