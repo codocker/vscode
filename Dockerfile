@@ -113,7 +113,7 @@ RUN set -ex \
     # 生成字体文件夹
     && mkfontdir \
     # 刷新系统字体缓存
-    && fc-cache -vf
+    && fc-cache -vf \
     \
     \
     \
