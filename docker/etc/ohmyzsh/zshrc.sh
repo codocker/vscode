@@ -60,3 +60,6 @@ export TERM="xterm-256color"
 # 命令别名
 alias zshconfig="mate ~/.zshrc"
 alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# 在这里设置环境变量
+# export GOROOT=path-to-go

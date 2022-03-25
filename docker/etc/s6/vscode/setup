@@ -24,12 +24,6 @@ if [ ! -f "${ZSH_RC_FILE}" ]; then
   gosu "${USERNAME}" cp /etc/ohmyzsh/zshrc.sh "${ZSH_RC_FILE}"
 fi
 
-# 初始化ZSH环境变量配置文件
-ZSH_ENV_FILE=${USER_HOME}/.zshenv
-if [ ! -f "${ZSH_ENV_FILE}" ]; then
-  gosu "${USERNAME}" cp /etc/ohmyzsh/zshenv.sh "${ZSH_ENV_FILE}"
-fi
-
 # 将主目录所有者改成系统创建的用户
 permissionFile=${USER_HOME}/.permission.lock
 if [ "${SET_PERMISSIONS}" = true ] && [ ! -f "${permissionFile}" ]; then
