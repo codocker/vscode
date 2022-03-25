@@ -1,7 +1,9 @@
 ARG VSCODE_HOME=/opt/microsoft/vscode
+ARG FONT_HOME=/opt/system/font
 
 
 
+# 安装VSCode
 FROM storezhang/ubuntu AS vscode
 
 
@@ -19,6 +21,22 @@ RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/c
 RUN mkdir -p ${VSCODE_HOME}
 # 去掉压缩包里面的顶层目录
 RUN tar xf ${OUTPUT_FILE} --directory ${VSCODE_HOME} --strip-components 1
+
+
+
+# 安装字体
+FROM storezhang/ubuntu AS font
+
+
+WORKDIR /opt
+
+
+RUN apt update -y
+RUN apt install axel -y
+RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf --output ${FONT_HOME}/PowerlineSymbols.otf
+RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf --output ${FONT_HOME}/10-powerline-symbols.conf
+
+
 
 
 
@@ -48,7 +66,10 @@ ENV OHMYZSH_THEMES ${OHMYZSH_HOME}/themes
 
 # 复制文件
 ARG VSCODE_HOME
+ARG FONT_HOME
 COPY --from=vscode ${VSCODE_HOME} ${VSCODE_HOME}
+# 复制字体
+COPY --from=font ${FONT_HOME} /usr/local/share/fonts/
 COPY docker /
 
 
