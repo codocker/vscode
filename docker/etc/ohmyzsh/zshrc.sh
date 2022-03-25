@@ -3,7 +3,7 @@ export ZSH=${OHMYZSH_HOME}
 
 # 随机主题范围
 # shellcheck disable=SC2034
-POWERLEVEL9K_MODE='nerdfont-complete'
+POWERLEVEL9K_MODE='awesome-fontconfig'
 # shellcheck disable=SC2034
 POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
 
@@ -53,6 +53,9 @@ source "${ZSH}"/oh-my-zsh.sh
 
 # 语言环境
 export LANG=zh_CN.UTF-8
+
+# 强制使用终端色彩
+export TERM="xterm-256color"
 
 # 命令别名
 alias zshconfig="mate ~/.zshrc"
