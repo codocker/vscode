@@ -22,3 +22,9 @@ steps:
       username: storezhang
       password:
         from_secret: token_docker
+
+
+volumes:
+  - name: docker
+  host:
+    path: /var/lib/cache/docker
