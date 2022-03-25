@@ -59,27 +59,13 @@ ARG OHMYZSH_HOME
 ENV OHMYZSH_PLUGINS ${OHMYZSH_HOME}/plugins
 ENV OHMYZSH_THEMES ${OHMYZSH_HOME}/themes
 
-ENV OHMYZSH_BIN_FILE ohmyzsh.tar.gz
-ENV AUTOSUGGESTIONS_BIN_FILE autosuggestions.tar.gz
-ENV HIGHLIGHTING_BIN_FILE highlighting.tar.gz
-ENV POWERLEVEL_10K_BIN_FILE powerlevel10k.tar.gz
-
 
 RUN apt update -y
-RUN apt install axel -y
-RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/ohmyzsh/ohmyzsh/archive/refs/heads/master.tar.gz --output ${OHMYZSH_BIN_FILE}
-RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/zsh-users/zsh-autosuggestions/archive/refs/heads/master.tar.gz --output ${AUTOSUGGESTIONS_BIN_FILE}
-RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/zsh-users/zsh-syntax-highlighting/archive/refs/heads/master.tar.gz --output ${HIGHLIGHTING_BIN_FILE}
-RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/romkatv/powerlevel10k/archive/refs/heads/master.tar.gz --output ${POWERLEVEL_10K_BIN_FILE}
-
-RUN mkdir -p ${OHMYZSH_HOME}
-RUN tar xf ${OHMYZSH_BIN_FILE} --directory ${OHMYZSH_HOME} --strip-components 1
-RUN mkdir -p ${OHMYZSH_PLUGINS}/zsh-autosuggestions
-RUN tar xf ${AUTOSUGGESTIONS_BIN_FILE} --directory ${OHMYZSH_PLUGINS}/zsh-autosuggestions --strip-components 1
-RUN mkdir -p ${OHMYZSH_PLUGINS}/zsh-syntax-highlighting
-RUN tar xf ${HIGHLIGHTING_BIN_FILE} --directory ${OHMYZSH_PLUGINS}/zsh-syntax-highlighting --strip-components 1
-RUN mkdir -p ${OHMYZSH_THEMES}/powerlevel10k
-RUN tar xf ${POWERLEVEL_10K_BIN_FILE} --directory ${OHMYZSH_THEMES}/powerlevel10k --strip-components 1
+RUN apt install git -y
+RUN git clone https://ghproxy.com/https://github.com/ohmyzsh/ohmyzsh.git ${OHMYZSH_HOME}
+RUN git clone https://ghproxy.com/https://github.com/zsh-users/zsh-autosuggestions.git ${OHMYZSH_PLUGINS}/zsh-autosuggestions
+RUN git clone https://ghproxy.com/https://github.com/zsh-users/zsh-syntax-highlighting.git ${OHMYZSH_PLUGINS}/zsh-syntax-highlighting
+RUN git clone https://ghproxy.com/https://github.com/romkatv/powerlevel10k.git ${OHMYZSH_THEMES}/powerlevel10k
 
 
 
