@@ -4,11 +4,11 @@
 source ./setup
 
 # 启动VSCode
-exec gosu "${USERNAME}" /opt/microsoft/vscode/bin/code-server \
+exec gosu "${USERNAME}" "${VSCODE_HOME}"/bin/code-server \
     --bind-addr 0.0.0.0:"${PORT}" \
     --user-data-dir "${DATA_DIR}" \
     --extensions-dir "${EXTENSION_DIR}" \
     --disable-telemetry \
     --auth password \
     --proxy-domain="${DOMAIN}" \
-    "${WORKSPACE}"
+    "${WORKSPACE:-${VSCODE_HOME}/workspace}"

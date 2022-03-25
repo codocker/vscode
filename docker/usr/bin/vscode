@@ -1,10 +1,9 @@
 #!/bin/bash
 
-/opt/microsoft/vscode/bin/code-server \
-    --bind-addr 0.0.0.0:"${PORT}" \
+"${VSCODE_HOME}"/bin/code-server \
     --user-data-dir "${DATA_DIR}" \
     --extensions-dir "${EXTENSION_DIR}" \
     --disable-telemetry \
     --auth password \
     --proxy-domain="${DOMAIN}" \
-    "${WORKSPACE}"
+    "${WORKSPACE:-${VSCODE_HOME}/workspace}"

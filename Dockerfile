@@ -15,10 +15,10 @@ WORKDIR /opt
 ARG VSCODE_HOME
 RUN apt update -y
 RUN apt install axel -y
-RUN axel --insecure --num-connections=64 https://ghproxy.com/https://github.com/coder/code-server/releases/download/v${VERSION}/code-server-${VERSION}-linux-amd64.tar.gz --output ${OUTPUT_FILE}
-RUN tar xf ${OUTPUT_FILE}
+RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/coder/code-server/releases/download/v${VERSION}/code-server-${VERSION}-linux-amd64.tar.gz --output ${OUTPUT_FILE}
 RUN mkdir -p ${VSCODE_HOME}
-RUN mv ${OUTPUT_FOLDER} ${VSCODE_HOME}
+# 去掉压缩包里面的顶层目录
+RUN tar xf ${OUTPUT_FILE} --directory ${VSCODE_HOME} --strip-components 1
 
 
 
@@ -31,15 +31,21 @@ LABEL author="storezhang<华寅>"
 LABEL email="storezhang@gmail.com"
 LABEL qq="160290688"
 LABEL wechat="storezhang"
-LABEL description="VSCode网页版本，在原来的功能上增加：1、中文支持；2、编译工具支持；3、解决权限问题"
+LABEL description="VSCode网页版本，在原来的功能上增加：1、中文支持；2、编译工具支持；3、解决权限问题；4、增加Z Shell并美化终端"
 
 
-# 超级用户密码
-ENV SUDO_PASSWORD storezhang
+# 用户密码
+ENV USER_PASSWORD storezhang
 # 访问密码
 ENV PASSWORD storezhang
-# Z Shell主目录
+# Git忽略证书错误
+ENV GIT_SSL_NO_VERIFY 1
+
+# ZSH主目录
 ENV OHMYZSH_HOME /opt/system/ohmyzsh
+# ZSH安装环境
+ENV OHMYZSH_PLUGINS ${OHMYZSH_HOME}/plugins
+ENV OHMYZSH_THEMES ${OHMYZSH_HOME}/themes
 
 
 # 复制文件
@@ -55,20 +61,25 @@ RUN set -ex \
     && apt update -y \
     && apt upgrade -y \
     # 将用户可以使用最高权限
-    && apt install sudo -y \
-    # 给用户设置密码
-    && echo ${USERNAME}:${SUDO_PASSWORD} | chpasswd \
-    # 将用户加入超级用户组
+    && apt install sudo -y --no-install-recommends \
+    # 允许用户可以切换成超级用户
     && adduser ${USERNAME} sudo \
     \
     \
     \
     # 安装Gcc，因为在后续过程中需要此工具来编译各种扩展
-    && apt install build-essential git-core -y \
+    && apt install gcc -y --no-install-recommends \
+    # 安装版本控制软件
+    && apt install git -y --no-install-recommends \
     \
     # 安装Z Shell并美化控制台
-    && apt install zsh -y \
+    && apt install zsh -y --no-install-recommends \
+    # 安装辅助程序
+    && apt install curl -y --no-install-recommends \
     && git clone https://ghproxy.com/https://github.com/ohmyzsh/ohmyzsh.git ${OHMYZSH_HOME} \
+    && git clone https://ghproxy.com/https://github.com/zsh-users/zsh-autosuggestions.git ${OHMYZSH_PLUGINS}/zsh-autosuggestions \
+    && git clone https://ghproxy.com/https://github.com/zsh-users/zsh-syntax-highlighting.git ${OHMYZSH_PLUGINS}/zsh-syntax-highlighting \
+    && git clone https://ghproxy.com/https://github.com/romkatv/powerlevel10k.git ${OHMYZSH_THEMES}/powerlevel10k \
     && usermod --shell /bin/zsh ${USERNAME} \
     \
     \
@@ -81,6 +92,7 @@ RUN set -ex \
     \
     # 清理镜像，减少无用包
     && rm -rf /var/lib/apt/lists/* \
+    && apt autoremove -y \
     && apt autoclean
 
 
@@ -102,6 +114,9 @@ ENV EXTENSION_DIR ${USER_HOME}/extension
 # 设置主目录权限
 ENV SET_PERMISSIONS true
 
+# 安装目录
+ENV VSCODE_HOME ${VSCODE_HOME}
+
 # 配置环境变量
 # 配置Golang开发环境变量
-ENV GOPROXY https://goproxy.io,https://goproxy.cn,https://mirrors.aliyun.com/goproxy,direct
+ENV GOPROXY https://goproxy.cn,https://mirrors.aliyun.com/goproxy,https://proxy.golang.com.cn,direct
