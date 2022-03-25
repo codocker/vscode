@@ -26,5 +26,5 @@ steps:
 
 volumes:
   - name: docker
-  host:
-    path: /var/lib/cache/docker
+    host:
+      path: /var/lib/cache/docker
