@@ -57,6 +57,9 @@ ENV USER_PASSWORD storezhang
 # 访问密码
 ENV PASSWORD storezhang
 
+# 字体目录
+ENV FONT_DIR /usr/local/share/fonts
+
 # ZSH主目录
 ENV OHMYZSH_HOME /opt/system/ohmyzsh
 # ZSH安装环境
@@ -69,7 +72,7 @@ ARG VSCODE_HOME
 ARG FONT_HOME
 COPY --from=vscode ${VSCODE_HOME} ${VSCODE_HOME}
 # 复制字体
-COPY --from=font ${FONT_HOME} /usr/local/share/fonts/
+COPY --from=font ${FONT_HOME} ${FONT_DIR}
 COPY docker /
 
 
@@ -100,6 +103,17 @@ RUN set -ex \
     && git clone https://ghproxy.com/https://github.com/zsh-users/zsh-syntax-highlighting.git ${OHMYZSH_PLUGINS}/zsh-syntax-highlighting \
     && git clone https://ghproxy.com/https://github.com/romkatv/powerlevel10k.git ${OHMYZSH_THEMES}/powerlevel10k \
     && usermod --shell /bin/zsh ${USERNAME} \
+    \
+    \
+    \
+    # 安装字体
+    && cd ${FONT_DIR} \
+    # 生成核心字体信息
+    && mkfontscale \
+    # 生成字体文件夹
+    && mkfontdir \
+    # 刷新系统字体缓存
+    && fc-cache -vf
     \
     \
     \
