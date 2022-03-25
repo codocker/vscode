@@ -38,8 +38,6 @@ LABEL description="VSCode网页版本，在原来的功能上增加：1、中文
 ENV USER_PASSWORD storezhang
 # 访问密码
 ENV PASSWORD storezhang
-# Git忽略证书错误
-ENV GIT_SSL_NO_VERIFY 1
 
 # ZSH主目录
 ENV OHMYZSH_HOME /opt/system/ohmyzsh
@@ -61,21 +59,21 @@ RUN set -ex \
     && apt update -y \
     && apt upgrade -y \
     # 将用户可以使用最高权限
-    && apt install sudo -y --no-install-recommends \
+    && apt install sudo -y \
     # 允许用户可以切换成超级用户
     && adduser ${USERNAME} sudo \
     \
     \
     \
     # 安装Gcc，因为在后续过程中需要此工具来编译各种扩展
-    && apt install gcc -y --no-install-recommends \
+    && apt install gcc -y \
     # 安装版本控制软件
-    && apt install git -y --no-install-recommends \
+    && apt install git -y \
     \
     # 安装Z Shell并美化控制台
-    && apt install zsh -y --no-install-recommends \
+    && apt install zsh -y \
     # 安装辅助程序
-    && apt install curl -y --no-install-recommends \
+    && apt install curl -y \
     && git clone https://ghproxy.com/https://github.com/ohmyzsh/ohmyzsh.git ${OHMYZSH_HOME} \
     && git clone https://ghproxy.com/https://github.com/zsh-users/zsh-autosuggestions.git ${OHMYZSH_PLUGINS}/zsh-autosuggestions \
     && git clone https://ghproxy.com/https://github.com/zsh-users/zsh-syntax-highlighting.git ${OHMYZSH_PLUGINS}/zsh-syntax-highlighting \
