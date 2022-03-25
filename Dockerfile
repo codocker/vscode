@@ -182,6 +182,9 @@ ENV SET_PERMISSIONS true
 # 安装目录
 ENV VSCODE_HOME ${VSCODE_HOME}
 
+# Ohmyzsh安装目录
+ENV OHMYZSH_HOME ${OHMYZSH_HOME}
+
 # 配置环境变量
 # 配置Golang开发环境变量
 ENV GOPROXY https://goproxy.cn,https://mirrors.aliyun.com/goproxy,https://proxy.golang.com.cn,direct
