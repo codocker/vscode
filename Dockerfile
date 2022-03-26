@@ -126,6 +126,11 @@ RUN set -ex \
     \
     \
     \
+    # 安装基本编辑器，方便在控制台里面编辑文件
+    && apt install nano -y \
+    \
+    \
+    \
     # 安装ZSH并美化控制台
     && apt install zsh -y \
     # 安装辅助程序
