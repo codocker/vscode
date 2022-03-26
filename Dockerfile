@@ -126,8 +126,11 @@ RUN set -ex \
     \
     \
     \
+    # 安装其它开发必要组件
     # 安装基本编辑器，方便在控制台里面编辑文件
     && apt install nano -y \
+    # 安装Docker
+    && apt install docker.io -y \
     \
     \
     \
