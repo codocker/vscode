@@ -24,8 +24,8 @@ TAG="storezhang/vscode" && NAME="VSCode" && sudo docker pull ${TAG} && sudo dock
   \
   \
   \
-  --env=UID=1026 \
-  --env=GID=100 \
+  --env=UID=用户编号，所有容器里面的文件都会被设置成此用户 \
+  --env=GID=组编号，所有容器里面的文件都会被设置成此组 \
   \
   \
   \
