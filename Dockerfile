@@ -145,6 +145,7 @@ RUN set -ex \
     \
     # 增加执行权限
     && chmod +x /etc/s6/vscode/* \
+    && chmod +x /etc/s6/docker/* \
     && chmod +x /usr/bin/vscode \
     \
     \
@@ -178,6 +179,13 @@ ENV VSCODE_HOME ${VSCODE_HOME}
 
 # Ohmyzsh安装目录
 ENV OHMYZSH_HOME ${OHMYZSH_HOME}
+
+# Docker相关环境变量
+ENV DOCKER_HOST ""
+ENV DOCKER_DATA_ROOT ${USER_HOME}/docker
+ENV DOCKER_STORAGE_DRIVER aufs
+ENV DOCKER_REGISTRY_MIRRORS ""
+ENV DOCKER_EXPERIMENTAL true
 
 # 配置环境变量
 # 配置Golang开发环境变量
