@@ -13,12 +13,12 @@ if [ ! -f "${DIND_FILE}" ]; then
   IFS=', ' read -r -a mirrors <<< "${DOCKER_REGISTRY_MIRRORS}"
   for mirror in "${mirrors[@]}"
   do
-      MIRRORS="${MIRRORS} --registry-mirror ${mirror}"
+    MIRRORS="${MIRRORS} --registry-mirror ${mirror}"
   done
 
   # 实验性功能支持
   if [ "${DOCKER_EXPERIMENTAL}" = true ]; then
-      EXPERIMENTAL="--experimental"
+    EXPERIMENTAL="--experimental"
   fi
 
   # 驱动

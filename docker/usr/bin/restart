@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # 重启
-gosu kill -9 $(pidof code-server)
+gosu kill -9 "$(pidof code-server)"

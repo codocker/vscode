@@ -49,6 +49,7 @@ plugins=(
 )
 
 # 配置ZSH启动文件
+# shellcheck source=/dev/null
 source "${ZSH}"/oh-my-zsh.sh
 
 # 语言环境
