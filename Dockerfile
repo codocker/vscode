@@ -8,17 +8,20 @@ ARG OHMYZSH_HOME=/opt/system/ohmyzsh
 FROM storezhang/ubuntu AS vscode
 
 
-# VSCode版本
-ENV VERSION 4.2.0
+# 获取最新版本
+ENV VERSION_URL https://api.github.com/repos/coder/code-server/releases/latest
 ENV OUTPUT_FILE vscode.tar.gz
-ENV OUTPUT_FOLDER code-server-${VERSION}-linux-amd64
+ENV OUTPUT_FOLDER code-server-linux-amd64
 WORKDIR /opt
 
 
 ARG VSCODE_HOME
 RUN apt update -y
-RUN apt install axel -y
-RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/coder/code-server/releases/download/v${VERSION}/code-server-${VERSION}-linux-amd64.tar.gz --output ${OUTPUT_FILE}
+RUN apt install axel curl -y
+RUN VERSION=$(curl -sX GET ${VERSION_URL} | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||') \
+    && DOWNLOAD_URL=https://ghproxy.com/https://github.com/coder/code-server/releases/download/v${VERSION}/code-server-${VERSION}-linux-amd64.tar.gz \
+    && echo $DOWNLOAD_URL \
+    && axel --insecure --num-connections=8 ${DOWNLOAD_URL} --output ${OUTPUT_FILE}
 RUN mkdir -p ${VSCODE_HOME}
 RUN tar xf ${OUTPUT_FILE} --directory ${VSCODE_HOME} --strip-components 1
 
