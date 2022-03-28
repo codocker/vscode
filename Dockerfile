@@ -68,7 +68,7 @@ ENV OHMYZSH_THEMES ${OHMYZSH_HOME}/themes
 
 
 RUN apt update -y
-RUN apt install git -y
+RUN apt install git libcurl4-openssl-dev -y
 RUN git clone --depth=1 https://ghproxy.com/https://github.com/ohmyzsh/ohmyzsh.git ${OHMYZSH_HOME}
 RUN git clone --depth=1 https://ghproxy.com/https://github.com/zsh-users/zsh-autosuggestions.git ${OHMYZSH_PLUGINS}/zsh-autosuggestions
 RUN git clone --depth=1 https://ghproxy.com/https://github.com/zsh-users/zsh-syntax-highlighting.git ${OHMYZSH_PLUGINS}/zsh-syntax-highlighting
