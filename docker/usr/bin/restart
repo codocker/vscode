@@ -1,4 +1,5 @@
 #!/bin/bash
 
-# 重启
-kill -9 "$(pidof code-server)"
+# 重启所有Node进程
+# 因为VSCode是以Node进程来启动的，不能重启Code Server，会找不到进程编号
+kill -9 "$(pidof node)"
