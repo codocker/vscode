@@ -153,6 +153,7 @@ RUN set -ex \
     # 增加执行权限
     && chmod +x /etc/s6/vscode/* \
     && chmod +x /usr/bin/vscode \
+    && chmod +x /usr/bin/restart \
     \
     \
     \
