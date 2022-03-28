@@ -190,5 +190,5 @@ ENV OHMYZSH_HOME ${OHMYZSH_HOME}
 # 配置环境变量
 # 配置Golang开发环境变量
 ENV GO111MODULE on
-ENV GOPROXY https://proxy.golang.org,https://proxy.golang.com.cn,https://goproxy.cn,https://mirrors.aliyun.com/goproxy,direct
-ENV GOSUMDB gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6
+ENV GOPROXY https://proxy.golang.org,https://goproxy.cn,https://mirrors.aliyun.com/goproxy,direct
+ENV GOSUMDB off
