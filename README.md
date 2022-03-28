@@ -1,17 +1,21 @@
 # vscode
 
 基于Microsoft Code Server打包的Docker镜像，在原来的基础上增加了以下功能：
+
 - 中文支持
 - 基本编辑器
 - 安装`Z Shell`并做了以下增加
-    - 安装`Ohmyzsh`
-    - 安装各种插件
-        - 自动提示
-        - 代码高亮
-    - 安装`powerlevel10k`主题
-    - 安装各种字体
-        - `Jetbrains Mono`
-        - `Powerline`字体
+  - 安装`Ohmyzsh`
+  - 安装各种插件
+    - 自动提示
+    - 代码高亮
+  - 安装`powerlevel10k`主题
+  - 安装各种字体
+    - `Jetbrains Mono`
+    - `Powerline`字体
+- 内置Docker
+  - Docker in Docker
+  - 外部Docker桥接
 
 ## 使用
 

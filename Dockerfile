@@ -19,7 +19,7 @@ ARG VSCODE_HOME
 RUN apt update -y
 RUN apt install axel curl -y
 RUN VERSION=$(curl -sX GET ${VERSION_URL} | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||') \
-    && DOWNLOAD_URL=https://ghproxy.com/https://github.com/coder/code-server/releases/download/v${VERSION}/code-server-${VERSION}-linux-amd64.tar.gz \
+    && DOWNLOAD_URL=https://gh.wget.cool/https://github.com/coder/code-server/releases/download/v${VERSION}/code-server-${VERSION}-linux-amd64.tar.gz \
     && echo $DOWNLOAD_URL \
     && axel --insecure --num-connections=8 ${DOWNLOAD_URL} --output ${OUTPUT_FILE}
 RUN mkdir -p ${VSCODE_HOME}
@@ -35,7 +35,7 @@ WORKDIR /opt
 
 
 # Jetbrains Mono字体版本
-ENV JETBRAINS_MONO_VERSION 2.242
+ENV NERD_FONTS_VERSION 2.1.0
 ENV JETBRAINS_BIN_FILE jetbrans.zip
 
 
@@ -43,11 +43,15 @@ ARG FONT_HOME
 RUN apt update -y
 RUN apt install axel unzip -y
 RUN mkdir -p ${FONT_HOME}
-RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf --output ${FONT_HOME}/PowerlineSymbols.otf
-RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf --output ${FONT_HOME}/10-powerline-symbols.conf
-RUN axel --insecure --num-connections=8 https://ghproxy.com/https://github.com/JetBrains/JetBrainsMono/releases/download/v${JETBRAINS_MONO_VERSION}/JetBrainsMono-${JETBRAINS_MONO_VERSION}.zip --output ${JETBRAINS_BIN_FILE}
-RUN unzip ${JETBRAINS_BIN_FILE}
-RUN mv fonts/ttf/* ${FONT_HOME}
+
+# Meslo Nerd字体
+RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Regular.ttf --output "${FONT_HOME}/MesloLGS NF Regular.ttf"
+RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Bold.ttf --output "${FONT_HOME}/MesloLGS NF Bold.ttf"
+RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Italic.ttf --output "${FONT_HOME}/MesloLGS NF Italic.ttf"
+RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Bold%20Italic.ttf --output "${FONT_HOME}/MesloLGS NF Bold Italic.ttf"
+# Jetbrains Mono字体
+RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://github.com/ryanoasis/nerd-fonts/releases/download/v${NERD_FONTS_VERSION}/JetBrainsMono.zip --output ${JETBRAINS_BIN_FILE}
+RUN unzip ${JETBRAINS_BIN_FILE} -d ${FONT_HOME}
 
 
 
@@ -65,10 +69,10 @@ ENV OHMYZSH_THEMES ${OHMYZSH_HOME}/themes
 
 RUN apt update -y
 RUN apt install git -y
-RUN git clone https://ghproxy.com/https://github.com/ohmyzsh/ohmyzsh.git ${OHMYZSH_HOME}
-RUN git clone https://ghproxy.com/https://github.com/zsh-users/zsh-autosuggestions.git ${OHMYZSH_PLUGINS}/zsh-autosuggestions
-RUN git clone https://ghproxy.com/https://github.com/zsh-users/zsh-syntax-highlighting.git ${OHMYZSH_PLUGINS}/zsh-syntax-highlighting
-RUN git clone https://ghproxy.com/https://github.com/romkatv/powerlevel10k.git ${OHMYZSH_THEMES}/powerlevel10k
+RUN git clone --depth=1 https://ghproxy.com/https://github.com/ohmyzsh/ohmyzsh.git ${OHMYZSH_HOME}
+RUN git clone --depth=1 https://ghproxy.com/https://github.com/zsh-users/zsh-autosuggestions.git ${OHMYZSH_PLUGINS}/zsh-autosuggestions
+RUN git clone --depth=1 https://ghproxy.com/https://github.com/zsh-users/zsh-syntax-highlighting.git ${OHMYZSH_PLUGINS}/zsh-syntax-highlighting
+RUN git clone --depth=1 https://ghproxy.com/https://github.com/romkatv/powerlevel10k.git ${OHMYZSH_THEMES}/powerlevel10k
 
 
 
@@ -148,7 +152,6 @@ RUN set -ex \
     \
     # 增加执行权限
     && chmod +x /etc/s6/vscode/* \
-    && chmod +x /etc/s6/docker/* \
     && chmod +x /usr/bin/vscode \
     \
     \
@@ -182,13 +185,6 @@ ENV VSCODE_HOME ${VSCODE_HOME}
 
 # Ohmyzsh安装目录
 ENV OHMYZSH_HOME ${OHMYZSH_HOME}
-
-# Docker相关环境变量
-ENV DOCKER_HOST ""
-ENV DOCKER_DATA_ROOT ${USER_HOME}/docker
-ENV DOCKER_STORAGE_DRIVER aufs
-ENV DOCKER_REGISTRY_MIRRORS ""
-ENV DOCKER_EXPERIMENTAL true
 
 # 配置环境变量
 # 配置Golang开发环境变量
