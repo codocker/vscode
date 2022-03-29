@@ -124,7 +124,7 @@ RUN set -ex \
     # 安装Gcc，因为在后续过程中需要此工具来编译各种扩展
     && apt install gcc -y \
     # 安装版本控制软件
-  && apt install git libcurl4-openssl-dev -y \
+    && apt install git libcurl4-openssl-dev -y \
     \
     \
     \
