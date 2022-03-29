@@ -44,18 +44,6 @@ RUN apt update -y
 RUN apt install axel unzip -y
 RUN mkdir -p ${FONT_HOME}
 
-# Meslo Nerd字体
-RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Regular.ttf --output "${FONT_HOME}/MesloLGS NF Regular.ttf"
-RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Bold.ttf --output "${FONT_HOME}/MesloLGS NF Bold.ttf"
-RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Italic.ttf --output "${FONT_HOME}/MesloLGS NF Italic.ttf"
-RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Bold%20Italic.ttf --output "${FONT_HOME}/MesloLGS NF Bold Italic.ttf"
-
-# 安装Powerline字体
-RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/abertsch/Menlo-for-Powerline/master/Menlo%20Bold%20Italic%20for%20Powerline.ttf "${FONT_HOME}/Menlo Bold Italic for Powerline.ttf "
-RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/abertsch/Menlo-for-Powerline/master/Menlo%20Bold%20for%20Powerline.ttf "${FONT_HOME}/Menlo Bold for Powerline.ttf"
-RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/abertsch/Menlo-for-Powerline/master/Menlo%20Italic%20for%20Powerline.ttf "${FONT_HOME}/Menlo Italic for Powerline.ttf "
-RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/abertsch/Menlo-for-Powerline/master/Menlo%20for%20Powerline.ttf "${FONT_HOME}/Menlo for Powerline.ttf "
-
 # Jetbrains Mono字体
 RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://github.com/ryanoasis/nerd-fonts/releases/download/v${NERD_FONTS_VERSION}/JetBrainsMono.zip --output ${JETBRAINS_BIN_FILE}
 RUN unzip ${JETBRAINS_BIN_FILE} -d ${FONT_HOME}
