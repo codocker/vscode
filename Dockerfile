@@ -41,7 +41,7 @@ ENV JETBRAINS_BIN_FILE jetbrans.zip
 
 ARG FONT_HOME
 RUN apt update -y
-RUN apt install axel unzip -y
+RUN apt install axel unzip git libcurl4-openssl-dev -y
 RUN mkdir -p ${FONT_HOME}
 
 # Meslo Nerd字体
@@ -49,6 +49,8 @@ RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubu
 RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Bold.ttf --output "${FONT_HOME}/MesloLGS NF Bold.ttf"
 RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Italic.ttf --output "${FONT_HOME}/MesloLGS NF Italic.ttf"
 RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Bold%20Italic.ttf --output "${FONT_HOME}/MesloLGS NF Bold Italic.ttf"
+# 安装Powerline字体
+RUN git clone --depth=1 https://github.com/abertsch/Menlo-for-Powerline.git ${FONT_HOME}
 # Jetbrains Mono字体
 RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://github.com/ryanoasis/nerd-fonts/releases/download/v${NERD_FONTS_VERSION}/JetBrainsMono.zip --output ${JETBRAINS_BIN_FILE}
 RUN unzip ${JETBRAINS_BIN_FILE} -d ${FONT_HOME}
