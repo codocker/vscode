@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# 删除模块缓存目录
+rm -rf "${GOPATH}/pkg/mod/cache/*"

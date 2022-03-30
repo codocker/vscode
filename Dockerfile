@@ -147,9 +147,11 @@ RUN set -ex \
     \
     # 增加执行权限
     && chmod +x /etc/s6/vscode/* \
+    \
     && chmod +x /usr/bin/vscode \
     && chmod +x /usr/bin/restart \
-    \
+    && chmod +x /usr/bin/gmcc \
+  \
     \
     \
     # 清理镜像，减少无用包
@@ -186,3 +188,4 @@ ENV OHMYZSH_HOME ${OHMYZSH_HOME}
 # 配置Golang开发环境变量
 ENV GO111MODULE on
 ENV GOPROXY https://goproxy.cn,https://mirrors.aliyun.com/goproxy,direct
+ENV PATH ${PATH}:${GOPATH}/bin
