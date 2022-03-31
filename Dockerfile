@@ -143,9 +143,10 @@ RUN set -ex \
     # 修改用户终端
     && usermod --shell /bin/zsh ${USERNAME} \
     # 修复控制台无法加载用户字体的问题
-    && sed -i 's/<\/head>/<link type="text\/css" href="https:\/\/fonts.googleapis.com\/css2?family=Fira+Code:wght@300;400;500;600;700\&display=swap" rel="stylesheet"><\/head>/g' ${VSCODE_HOME}/src/browser/pages/vscode.html \
-    && sed -i 's/font-src/font-src fonts.gstatic.com/g' ${VSCODE_HOME}/src/browser/pages/vscode.html \
-    && sed -i 's/style-src/style-src fonts.googleapis.com/g' ${VSCODE_HOME}/src/browser/pages/vscode.html \
+    && WORKBENCH=${VSCODE_HOME}/lib/vscode/out/vs/code/browser/workbench/workbench.html \
+    && sed -i 's/<\/head>/<link type="text\/css" href="https:\/\/fonts.googleapis.com\/css2?family=Fira+Code:wght@300;400;500;600;700\&display=swap" rel="stylesheet"><\/head>/g' ${WORKBENCH} \
+    && sed -i 's/font-src/font-src fonts.gstatic.com/g' ${WORKBENCH} \
+    && sed -i 's/style-src/style-src fonts.googleapis.com/g' ${WORKBENCH} \
     \
     \
     \
