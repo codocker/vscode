@@ -15,7 +15,7 @@ fi
 
 # 创建工作区目录
 if [ ! -d "${WORKSPACE}" ]; then
-  gosu "${USERNAME}" mkdir "${WORKSPACE}"
+  gosu "${USERNAME}" mkdir -p "${WORKSPACE}"
 fi
 
 # 初始化ZSH配置文件
