@@ -169,7 +169,7 @@ ENV HOST 0.0.0.0
 ENV PORT 8443
 
 # 工作区
-ENV WORKSPACE ${USER_HOME}/workspace/default
+ENV WORKSPACE ${USER_HOME}/workspace
 # 数据目录
 ENV DATA_DIR ${USER_HOME}/data
 # 插件目录
