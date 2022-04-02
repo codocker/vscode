@@ -3,6 +3,9 @@
 # 给用户设置密码
 echo "${USERNAME}:${USER_PASSWORD}" | chpasswd
 
+# 取消Git的安全验证
+gosu "${USERNAME}" git config --global http.sslVerify false
+
 # 创建数据目录
 if [ ! -d "${DATA_DIR}" ]; then
   gosu "${USERNAME}" mkdir "${DATA_DIR}"
