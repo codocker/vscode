@@ -9,7 +9,7 @@ FROM storezhang/ubuntu AS vscode
 
 
 # 获取最新版本
-ENV VERSION 4.3.0
+ENV VERSION 4.4.0
 ENV OUTPUT_FILE vscode.tar.gz
 ENV OUTPUT_FOLDER code-server-linux-amd64
 WORKDIR /opt
