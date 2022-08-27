@@ -106,55 +106,56 @@ COPY docker /
 
 
 RUN set -ex \
-    \
-    \
-    \
-    && apt update -y \
-    && apt upgrade -y \
-    # 将用户可以使用最高权限
-    && apt install sudo -y \
-    # 允许用户可以切换成超级用户
-    && adduser ${USERNAME} sudo \
-    \
-    \
-    \
-    # 安装Gcc，因为在后续过程中需要此工具来编译各种扩展
-    && apt install gcc -y \
-    # 安装版本控制软件
-    && apt install git libcurl4-openssl-dev -y \
-    \
-    \
-    \
-    # 安装其它开发必要组件
-    # 安装基本编辑器，方便在控制台里面编辑文件
-    && apt install nano -y \
-    # 安装Docker
-    && apt install docker.io -y \
-    \
-    \
-    \
-    # 安装ZSH并美化控制台
-    && apt install zsh -y \
-    # 安装辅助程序
-    && apt install curl -y \
-    # 修改用户终端
-    && usermod --shell /bin/zsh ${USERNAME} \
-    \
-    \
-    \
-    # 增加执行权限
-    && chmod +x /etc/s6/vscode/* \
-    \
-    && chmod +x /usr/bin/vscode \
-    && chmod +x /usr/bin/restart \
-    && chmod +x /usr/bin/gmcc \
   \
-    \
-    \
-    # 清理镜像，减少无用包
-    && rm -rf /var/lib/apt/lists/* \
-    && apt autoremove -y \
-    && apt autoclean
+  \
+  \
+  && apt update -y \
+  && apt upgrade -y \
+  # 将用户可以使用最高权限
+  && apt install sudo -y \
+  # 允许用户可以切换成超级用户
+  && adduser ${USERNAME} sudo \
+  \
+  \
+  \
+  # 安装Gcc，因为在后续过程中需要此工具来编译各种扩展
+  && apt install gcc -y \
+  # 安装版本控制软件
+  && apt install git libcurl4-openssl-dev -y \
+  \
+  \
+  \
+  # 安装其它开发必要组件
+  # 安装基本编辑器，方便在控制台里面编辑文件
+  && apt install nano -y \
+  # 安装Docker
+  && apt install docker.io -y \
+  \
+  \
+  \
+  # 安装ZSH并美化控制台
+  && apt install zsh -y \
+  # 安装辅助程序
+  && apt install curl -y \
+  # 修改用户终端
+  && usermod --shell /bin/zsh ${USERNAME} \
+  \
+  \
+  \
+  # 增加执行权限
+  && chmod +x /etc/s6/vscode/* \
+  && chomd +x /etc/ohmyzsh/* \
+  \
+  && chmod +x /usr/bin/vscode \
+  && chmod +x /usr/bin/restart \
+  && chmod +x /usr/bin/gmcc \
+  \
+  \
+  \
+  # 清理镜像，减少无用包
+  && rm -rf /var/lib/apt/lists/* \
+  && apt autoremove -y \
+  && apt autoclean
 
 
 # 域名
