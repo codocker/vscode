@@ -72,7 +72,7 @@ RUN git clone --depth=1 https://ghproxy.com/https://github.com/romkatv/powerleve
 
 # 打包真正的镜像
 # 之所以使用Ubuntu镜像而不是Alpine镜像，是因为在VSCode的使用过程中，会用到系统相关功能，而Ubuntu显然比Alpine在易用性上要好得多
-FROM storezhang/ubuntu
+FROM storezhang/ubuntu:22.10
 
 
 LABEL author="storezhang<华寅>"
