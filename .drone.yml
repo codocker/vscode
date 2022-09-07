@@ -24,8 +24,6 @@ steps:
         from_secret: password_tencentyun_ccr
     settings:
       repository: storezhang/vscode
-      debug: true
-      verbose: true
       registries:
         - username: storezhang
           password: $${PASSWORD_DOCKER}
