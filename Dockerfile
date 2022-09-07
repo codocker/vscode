@@ -5,7 +5,7 @@ ARG OHMYZSH_HOME=/opt/system/ohmyzsh
 
 
 # 安装VSCode
-FROM storezhang/ubuntu AS vscode
+FROM storezhang/ubuntu:22.10 AS vscode
 
 
 # 获取最新版本
@@ -25,7 +25,7 @@ RUN tar xf ${OUTPUT_FILE} --directory ${VSCODE_HOME} --strip-components 1
 
 
 # 安装字体
-FROM storezhang/ubuntu AS font
+FROM storezhang/ubuntu:22.10 AS font
 
 
 WORKDIR /opt
@@ -48,7 +48,7 @@ RUN unzip ${JETBRAINS_BIN_FILE} -d ${FONT_HOME}
 
 
 # 安装Ohmyzsh
-FROM storezhang/ubuntu AS ohmyzsh
+FROM storezhang/ubuntu:22.10 AS ohmyzsh
 
 
 WORKDIR /opt
