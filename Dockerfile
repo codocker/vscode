@@ -8,7 +8,7 @@ ARG OHMYZSH_HOME=/opt/system/ohmyzsh
 FROM storezhang/ubuntu:22.10 AS vscode
 
 
-# 获取最新版本
+# 获取VSCode版本
 ENV VERSION 4.6.1
 ENV OUTPUT_FILE vscode.tar.gz
 ENV OUTPUT_FOLDER code-server-linux-amd64
