@@ -9,7 +9,7 @@ FROM storezhang/ubuntu:22.10 AS vscode
 
 
 # 获取VSCode版本
-ENV VERSION 4.8.1
+ENV VERSION 4.8.2
 ENV OUTPUT_FILE vscode.tar.gz
 ENV OUTPUT_FOLDER code-server-linux-amd64
 WORKDIR /opt
