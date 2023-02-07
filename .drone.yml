@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: VSCode
+name: 发布
 
 
 clone:
