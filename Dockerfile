@@ -1,6 +1,6 @@
 FROM codercom/code-server:4.9.1 AS vscode
-FROM storezhang/ohmyzsh:0.0.1 AS ohmyzsh
-FROM storezhang/font:0.0.4 AS font
+FROM storezhang/ohmyzsh:0.0.3 AS ohmyzsh
+FROM storezhang/font:0.0.7 AS font
 
 
 
