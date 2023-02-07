@@ -1,57 +1,6 @@
-ARG VSCODE_HOME=/opt/microsoft/vscode
-ARG FONT_HOME=/opt/system/font
-ARG OHMYZSH_HOME=/opt/system/ohmyzsh
-
-
-
-
 FROM codercom/code-server:4.9.1 AS vscode
-
-
-
-
-
-# 安装字体
-FROM storezhang/ubuntu:22.10 AS font
-
-
-WORKDIR /opt
-
-
-# Jetbrains Mono字体版本
-ENV NERD_FONTS_VERSION 2.1.0
-ENV JETBRAINS_BIN_FILE jetbrans.zip
-
-
-ARG FONT_HOME
-RUN apt update -y
-RUN apt install axel unzip -y
-RUN mkdir -p ${FONT_HOME}
-
-# Jetbrains Mono字体
-RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://github.com/ryanoasis/nerd-fonts/releases/download/v${NERD_FONTS_VERSION}/JetBrainsMono.zip --output ${JETBRAINS_BIN_FILE}
-RUN unzip ${JETBRAINS_BIN_FILE} -d ${FONT_HOME}
-
-
-
-# 安装Ohmyzsh
-FROM storezhang/ubuntu:22.10 AS ohmyzsh
-
-
-WORKDIR /opt
-
-
-ARG OHMYZSH_HOME
-ENV OHMYZSH_PLUGINS ${OHMYZSH_HOME}/plugins
-ENV OHMYZSH_THEMES ${OHMYZSH_HOME}/themes
-
-
-RUN apt update -y
-RUN apt install git libcurl4-openssl-dev -y
-RUN git clone --depth=1 https://ghproxy.com/https://github.com/ohmyzsh/ohmyzsh.git ${OHMYZSH_HOME}
-RUN git clone --depth=1 https://ghproxy.com/https://github.com/zsh-users/zsh-autosuggestions.git ${OHMYZSH_PLUGINS}/zsh-autosuggestions
-RUN git clone --depth=1 https://ghproxy.com/https://github.com/zsh-users/zsh-syntax-highlighting.git ${OHMYZSH_PLUGINS}/zsh-syntax-highlighting
-RUN git clone --depth=1 https://ghproxy.com/https://github.com/romkatv/powerlevel10k.git ${OHMYZSH_THEMES}/powerlevel10k
+FROM storezhang/ohmyzsh:0.0.1 AS ohmyzsh
+FROM storezhang/font:0.0.4 AS font
 
 
 
@@ -77,13 +26,12 @@ ENV PASSWORD storezhang
 # 程序安装目录
 ENV VSCODE_HOME /usr/lib/code-server
 # 字体目录
+ENV FONT_HOME /usr/lib/font
 ENV FONT_DIR /usr/local/share/fonts
+# Zsh目录
+ENV OHMYZSH_HOME=/usr/lib/ohmyzsh
 
 
-
-# 复制文件
-ARG FONT_HOME
-ARG OHMYZSH_HOME
 # 复制VSCode
 COPY --from=vscode ${VSCODE_HOME} ${VSCODE_HOME}
 # 复制字体
