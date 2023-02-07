@@ -4,23 +4,10 @@ ARG OHMYZSH_HOME=/opt/system/ohmyzsh
 
 
 
-# 安装VSCode
-FROM storezhang/ubuntu:22.10 AS vscode
+
+FROM codercom/code-server:4.9.1 AS vscode
 
 
-# 获取VSCode版本
-ENV VERSION 4.8.2
-ENV OUTPUT_FILE vscode.tar.gz
-ENV OUTPUT_FOLDER code-server-linux-amd64
-WORKDIR /opt
-
-
-ARG VSCODE_HOME
-RUN apt update -y
-RUN apt install axel curl -y
-RUN axel --insecure --num-connections=8 https://gh.wget.cool/https://github.com/coder/code-server/releases/download/v${VERSION}/code-server-${VERSION}-linux-amd64.tar.gz --output ${OUTPUT_FILE}
-RUN mkdir -p ${VSCODE_HOME}
-RUN tar xf ${OUTPUT_FILE} --directory ${VSCODE_HOME} --strip-components 1
 
 
 
@@ -87,13 +74,14 @@ ENV USER_PASSWORD storezhang
 # 访问密码
 ENV PASSWORD storezhang
 
+# 程序安装目录
+ENV VSCODE_HOME /usr/lib/code-server
 # 字体目录
 ENV FONT_DIR /usr/local/share/fonts
 
 
 
 # 复制文件
-ARG VSCODE_HOME
 ARG FONT_HOME
 ARG OHMYZSH_HOME
 # 复制VSCode
