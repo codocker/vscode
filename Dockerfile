@@ -50,7 +50,7 @@ RUN set -ex \
   # 将用户可以使用最高权限
   && apt install sudo -y \
   # 允许用户可以切换成超级用户
-  && adduser ${USERNAME} sudo \
+  && usermod --append --groups sudo ${USERNAME} \
   \
   \
   \
