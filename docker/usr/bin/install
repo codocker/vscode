@@ -37,22 +37,32 @@ lang="" && lang=go
 # 准备参数
 case $lang in
   Go | go | Golang | golang)
-    version="" && version=$(curl https://golang.org/VERSION?m=text)
+    version="" && version=$(curl https://golang.google.cn/VERSION?m=text)
     url="https://dl.google.com/go/${version}.linux-amd64.tar.gz"
     filename="${version}.linux-amd64.tar.gz"
     target="development/google/golang"
     ;;
 
   *)
-    version="" && version=$(curl https://golang.org/VERSION?m=text)
+    version="" && version=$(curl https://golang.google.cn/VERSION?m=text)
     url="https://dl.google.com/go/${version}.linux-amd64.tar.gz"
     filename="${version}.linux-amd64.tar.gz"
     target="development/google/golang/"
     ;;
 esac
 
+# 打印相关信息
+echo "语言：${lang}，版本：${version}，下载地址：${url}"
+
 # 下载文件
 curl "${url}" --output "${filename}"
 
+# 安装目录
+installDir="${HOME}/${target}/${version}"
+mkdir -p "${installDir}"
+
 # 解压文件
-tar -xf "${filename}" -C "${HOME}/${target}/${version}"
+tar -xf "${filename}" --strip-components 1 -C "${installDir}"
+
+# 删除安装文件
+rm -f "${filename}"
