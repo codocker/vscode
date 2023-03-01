@@ -8,7 +8,7 @@ FROM storezhang/font:0.0.7 AS font
 
 # 打包真正的镜像
 # 之所以使用Ubuntu镜像而不是Alpine镜像，是因为在VSCode的使用过程中，会用到系统相关功能，而Ubuntu显然比Alpine在易用性上要好得多
-FROM storezhang/ubuntu:23.04.17
+FROM ccr.ccs.tencentyun.com/storezhang/ubuntu:23.04.17
 
 
 LABEL author="storezhang<华寅>"
