@@ -54,15 +54,20 @@ esac
 # 打印相关信息
 echo "语言：${lang}，版本：${version}，下载地址：${url}"
 
-# 下载文件
-curl "${url}" --output "${filename}"
-
 # 安装目录
 installDir="${HOME}/${target}/${version}"
 mkdir -p "${installDir}"
 
-# 解压文件
-tar -xf "${filename}" --strip-components 1 -C "${installDir}"
+# 如果安装目录已经存在，表示不需要安装
+if [ -d "${installDir}" ]; then
+  echo "语言${lang}版本${version}已存在，不需要安装"
+else
+  # 下载文件
+  curl "${url}" --output "${filename}"
 
-# 删除安装文件
-rm -f "${filename}"
+  # 解压文件
+  tar -xf "${filename}" --strip-components 1 -C "${installDir}"
+
+  # 删除安装文件
+  rm -f "${filename}"
+fi
