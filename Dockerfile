@@ -85,6 +85,7 @@ RUN set -ex \
   && chmod +x /usr/bin/vscode \
   && chmod +x /usr/bin/restart \
   && chmod +x /usr/bin/gmcc \
+  && chmod +x /usr/bin/install \
   \
   \
   \
