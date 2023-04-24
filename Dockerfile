@@ -1,4 +1,4 @@
-FROM codercom/code-server:4.11.0 AS vscode
+FROM codercom/code-server:4.12.0 AS vscode
 FROM ccr.ccs.tencentyun.com/storezhang/ohmyzsh:0.0.3 AS ohmyzsh
 FROM ccr.ccs.tencentyun.com/storezhang/font:0.0.7 AS font
 
